@@ -1,8 +1,14 @@
-import { Heading } from "@chakra-ui/react"
+// Components
+import { Stack } from "@chakra-ui/react";
+import FormGenerator from "./components/form-generator/form-generator"
+// Files
+import formJson from "./dummy-form-json.json";
 
 function App() {
   return (
-    <Heading>Form generator</Heading>
+    <Stack minHeight="100vh" alignItems="center" justifyContent="center">
+      <FormGenerator jsonFile={formJson}/>
+    </Stack>
   )
 }
 
