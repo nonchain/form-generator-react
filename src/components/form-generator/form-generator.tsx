@@ -1,5 +1,14 @@
 // Components
-import { FormControl, Input, Grid, GridItem } from "@chakra-ui/react";
+import {
+  FormControl,
+  Input,
+  RadioGroup,
+  Radio,
+  Grid,
+  GridItem,
+  Stack,
+  FormLabel,
+} from "@chakra-ui/react";
 import Form from "../form/from";
 // TS Configs
 import {
@@ -10,34 +19,45 @@ import {
 
 const inputWidth: InputWidth = {
   full: 2,
-  normal: 1
-}
+  normal: 1,
+};
 
 function FormGenerator({ jsonFile }: FormGeneratorProps) {
   if (!jsonFile) return null;
+  const { inputs, radios: { groups } } = jsonFile;
+  const RadioGroups = Object.keys(groups)?.map((group) => groups[group]);
 
   return (
     <Form>
-      <Grid templateColumns='repeat(2, 1fr)' gap={4}>
-        {jsonFile.map((input: FormGeneratorInput) => (
-          <GridItem colSpan={inputWidth[input?.width]}>
+      <Grid templateColumns="repeat(2, 1fr)" gap={4}>
+        {inputs?.map((input: FormGeneratorInput) => (
+          <GridItem key={input.id} colSpan={inputWidth[input?.width]}>
             <FormControl>
+              <FormLabel>{input?.title}</FormLabel>
               <Input
                 id={input?.id}
                 name={input?.name}
                 type={input?.type}
                 placeholder={input?.placeholder}
-                sx={{
-                  padding: "0.5rem 1rem",
-                  width: "100%",
-                  border: "2px solid #D4D4D4",
-                  borderRadius: "0.25rem",
-
-                  "&[type=\"number\"]::-webkit-inner-spin-button": {
-                    display: "none"
-                  }
-                }}
               />
+            </FormControl>
+          </GridItem>
+        ))}
+        {RadioGroups?.map((radioGroup) => (
+          <GridItem key={radioGroup?.id} colSpan={2}>
+            <FormControl>
+              <FormLabel>{radioGroup?.title}</FormLabel>
+              <RadioGroup value={radioGroup.data?.[0].value}>
+                <Stack
+                  alignItems="center"
+                  gap="1rem"
+                  direction="row"
+                >
+                  {radioGroup?.data?.map((radio) => (
+                    <Radio key={radio?.id} value={radio?.value}>{radio?.title}</Radio>
+                  ))}
+                </Stack>
+              </RadioGroup>
             </FormControl>
           </GridItem>
         ))}
