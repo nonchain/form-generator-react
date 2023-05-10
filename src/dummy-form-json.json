@@ -1,0 +1,98 @@
+{
+  "inputs": [
+    {
+      "id": "username",
+      "name": "username",
+      "type": "text",
+      "placeholder": "Pickup a uniq username",
+      "title": "Username",
+      "width": "full",
+      "validation": {
+        "required": true,
+        "pattern": "/^[a-z0-9_]/",
+        "minLength": { "value": 3, "message": "Username should be at least 3 character" }
+      }
+    },
+    {
+      "id": "phone",
+      "name": "phone",
+      "type": "number",
+      "placeholder": "09123456789",
+      "title": "Phon",
+      "width": "normal",
+      "validation": {
+        "required": false,
+        "pattern": "/^[0-9]/",
+        "valueAsNumber": true,
+        "minLength": { "value": 11, "message": "Phone number should be 11 character" },
+        "maxLength": { "value": 11, "message": "Phone number should be 11 character" }
+      }
+    }
+    ,
+    {
+      "id": "password",
+      "name": "password",
+      "type": "password",
+      "placeholder": "At least 8 characters",
+      "title": "Password",
+      "width": "normal",
+      "validation": {
+        "required": true,
+        "pattern": "/^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$ %^&*-]).{8,}$/",
+        "minLength": { "value": 8, "message": "Password must be at least 8 character" }
+      }
+    }
+  ],
+  "radios": {
+    "groups": {
+      "gender": {
+        "id": "1",
+        "title": "Gender",
+        "data": [
+          {
+            "id": "1",
+            "name": "gender",
+            "value": "male",
+            "title": "Male"
+          },
+          {
+            "id": "2",
+            "name": "gender",
+            "value": "female",
+            "title": "Female"
+          },
+          {
+            "id": "3",
+            "name": "gender",
+            "value": "other",
+            "title": "Other"
+          }
+        ]
+      },
+      "work": {
+        "id": "2",
+        "title": "Work",
+        "data": [
+          {
+            "id": "1",
+            "name": "work",
+            "value": "remote",
+            "title": "Remote"
+          },
+          {
+            "id": "2",
+            "name": "work",
+            "value": "part-time",
+            "title": "Part Time"
+          },
+          {
+            "id": "3",
+            "name": "work",
+            "value": "full-time",
+            "title": "Full Time"
+          }
+        ]
+      }
+    }
+  }
+}
