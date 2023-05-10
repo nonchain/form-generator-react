@@ -1,3 +1,5 @@
+// Libraries
+import { useForm } from "react-hook-form";
 // Components
 import {
   FormControl,
@@ -8,6 +10,8 @@ import {
   GridItem,
   Stack,
   FormLabel,
+  FormErrorMessage,
+  Button,
 } from "@chakra-ui/react";
 import Form from "../form/from";
 // TS Configs
@@ -23,23 +27,39 @@ const inputWidth: InputWidth = {
 };
 
 function FormGenerator({ jsonFile }: FormGeneratorProps) {
+  const {
+    handleSubmit,
+    register,
+    formState: { errors, isSubmitting },
+  } = useForm();
+
   if (!jsonFile) return null;
-  const { inputs, radios: { groups } } = jsonFile;
+  const {
+    inputs,
+    radios: { groups },
+  } = jsonFile;
   const RadioGroups = Object.keys(groups)?.map((group) => groups[group]);
 
+  const onSubmit = (values: object) => {
+    console.log(JSON.stringify(values));
+  };
+
   return (
-    <Form>
+    <Form onSubmit={handleSubmit(onSubmit)}>
       <Grid templateColumns="repeat(2, 1fr)" gap={4}>
         {inputs?.map((input: FormGeneratorInput) => (
           <GridItem key={input.id} colSpan={inputWidth[input?.width]}>
-            <FormControl>
+            <FormControl isInvalid={errors[input?.name]}>
               <FormLabel>{input?.title}</FormLabel>
               <Input
                 id={input?.id}
-                name={input?.name}
                 type={input?.type}
                 placeholder={input?.placeholder}
+                {...register(input?.name, input?.validation)}
               />
+              <FormErrorMessage>
+                {errors?.[input?.name] && errors?.[input?.name].message}
+              </FormErrorMessage>
             </FormControl>
           </GridItem>
         ))}
@@ -47,14 +67,12 @@ function FormGenerator({ jsonFile }: FormGeneratorProps) {
           <GridItem key={radioGroup?.id} colSpan={2}>
             <FormControl>
               <FormLabel>{radioGroup?.title}</FormLabel>
-              <RadioGroup value={radioGroup.data?.[0].value}>
-                <Stack
-                  alignItems="center"
-                  gap="1rem"
-                  direction="row"
-                >
+              <RadioGroup>
+                <Stack alignItems="center" gap="1rem" direction="row">
                   {radioGroup?.data?.map((radio) => (
-                    <Radio key={radio?.id} value={radio?.value}>{radio?.title}</Radio>
+                    <Radio key={radio?.id} value={radio.value}>
+                      {radio?.title}
+                    </Radio>
                   ))}
                 </Stack>
               </RadioGroup>
@@ -62,6 +80,8 @@ function FormGenerator({ jsonFile }: FormGeneratorProps) {
           </GridItem>
         ))}
       </Grid>
+
+      <Button type="submit" mt="2rem" isLoading={isSubmitting}>Submit</Button>
     </Form>
   );
 }
