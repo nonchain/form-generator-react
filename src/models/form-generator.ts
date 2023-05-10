@@ -4,6 +4,13 @@ export type FormGeneratorInput = {
   name: string;
   placeholder: string;
   title: string;
+  validation?: {
+    required?: boolean;
+    pattern?: string;
+    valueAsNumber?: boolean;
+    minLength?: { value: number; message?: string } | number;
+    maxLength?: { value: number; message?: string } | number;
+  };
   type:
     | "button"
     | "checkbox"
