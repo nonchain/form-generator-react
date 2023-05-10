@@ -1,7 +1,7 @@
 import { ValidationRule } from "react-hook-form";
 
 export type FormGeneratorInput = {
-  width: "full" | "normal";
+  width: string;
   id: string;
   name: string;
   placeholder: string;
@@ -13,29 +13,7 @@ export type FormGeneratorInput = {
     minLength?: ValidationRule<number> | undefined;
     maxLength?: ValidationRule<number> | undefined;
   };
-  type:
-    | "button"
-    | "checkbox"
-    | "color"
-    | "date"
-    | "datetime-local"
-    | "email"
-    | "file"
-    | "hidden"
-    | "image"
-    | "month"
-    | "number"
-    | "password"
-    | "radio"
-    | "range"
-    | "reset"
-    | "search"
-    | "submit"
-    | "tel"
-    | "text"
-    | "time"
-    | "url"
-    | "week";
+  type: string;
 };
 
 export type FormGeneratorRadio = {
@@ -46,8 +24,7 @@ export type FormGeneratorRadio = {
 };
 
 export type InputWidth = {
-  full: number;
-  normal: number;
+  [key: string]: number
 };
 
 export type FormGeneratorProps = {
