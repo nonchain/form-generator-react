@@ -1,3 +1,5 @@
+import { ValidationRule } from "react-hook-form";
+
 export type FormGeneratorInput = {
   width: "full" | "normal";
   id: string;
@@ -6,10 +8,10 @@ export type FormGeneratorInput = {
   title: string;
   validation?: {
     required?: boolean;
-    pattern?: string;
-    valueAsNumber?: boolean;
-    minLength?: { value: number; message?: string } | number;
-    maxLength?: { value: number; message?: string } | number;
+    pattern?: ValidationRule<RegExp>;
+    valueAsNumber?: false | undefined;
+    minLength?: ValidationRule<number> | undefined;
+    maxLength?: ValidationRule<number> | undefined;
   };
   type:
     | "button"

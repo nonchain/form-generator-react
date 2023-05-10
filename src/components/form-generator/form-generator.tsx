@@ -20,6 +20,7 @@ import {
   FormGeneratorProps,
   InputWidth,
 } from "../../models/form-generator";
+import { ReactNode } from "react";
 
 const inputWidth: InputWidth = {
   full: 2,
@@ -49,16 +50,22 @@ function FormGenerator({ jsonFile }: FormGeneratorProps) {
       <Grid templateColumns="repeat(2, 1fr)" gap={4}>
         {inputs?.map((input: FormGeneratorInput) => (
           <GridItem key={input.id} colSpan={inputWidth[input?.width]}>
-            <FormControl isInvalid={errors[input?.name]}>
+            <FormControl isInvalid={!!(errors?.[input?.name])}>
               <FormLabel>{input?.title}</FormLabel>
               <Input
                 id={input?.id}
                 type={input?.type}
                 placeholder={input?.placeholder}
-                {...register(input?.name, input?.validation)}
+                {...register(input?.name,  {
+                  required: input?.validation?.required,
+                  pattern: input?.validation?.pattern,
+                  valueAsNumber: input?.validation?.valueAsNumber,
+                  minLength: input?.validation?.minLength,
+                  maxLength: input?.validation?.maxLength
+                })}
               />
               <FormErrorMessage>
-                {errors?.[input?.name] && errors?.[input?.name].message}
+                {errors[input?.name]?.message as ReactNode}
               </FormErrorMessage>
             </FormControl>
           </GridItem>
