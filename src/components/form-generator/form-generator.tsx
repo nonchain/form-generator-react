@@ -30,7 +30,7 @@ function FormGenerator({ jsonFile }: FormGeneratorProps) {
   const {
     handleSubmit,
     register,
-    formState: { errors, isSubmitting },
+    formState: { errors, isSubmitting, isSubmitted, isSubmitSuccessful },
   } = useForm();
 
   if (!jsonFile) return null;
@@ -65,23 +65,29 @@ function FormGenerator({ jsonFile }: FormGeneratorProps) {
         ))}
         {RadioGroups?.map((radioGroup) => (
           <GridItem key={radioGroup?.id} colSpan={2}>
-            <FormControl>
+            <FormControl isInvalid={isSubmitted && !isSubmitSuccessful}>
               <FormLabel>{radioGroup?.title}</FormLabel>
               <RadioGroup>
                 <Stack alignItems="center" gap="1rem" direction="row">
                   {radioGroup?.data?.map((radio) => (
-                    <Radio key={radio?.id} value={radio.value}>
+                    <Radio
+                      key={radio?.id}
+                      value={radio.value}
+                      {...register(radio.name, { required: true })}
+                    >
                       {radio?.title}
                     </Radio>
                   ))}
                 </Stack>
               </RadioGroup>
+              <FormErrorMessage>Please select one the options</FormErrorMessage>
             </FormControl>
           </GridItem>
         ))}
       </Grid>
-
-      <Button type="submit" mt="2rem" isLoading={isSubmitting}>Submit</Button>
+      <Button type="submit" mt="2rem" isLoading={isSubmitting}>
+        Submit
+      </Button>
     </Form>
   );
 }
