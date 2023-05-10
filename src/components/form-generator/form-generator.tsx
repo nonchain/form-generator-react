@@ -34,6 +34,7 @@ function FormGenerator({ jsonFile }: FormGeneratorProps) {
     formState: { errors, isSubmitting, isSubmitted, isSubmitSuccessful },
   } = useForm();
 
+  // Check the json file
   if (!jsonFile) return null;
   const {
     inputs,
@@ -41,6 +42,7 @@ function FormGenerator({ jsonFile }: FormGeneratorProps) {
   } = jsonFile;
   const RadioGroups = Object.keys(groups)?.map((group) => groups[group]);
 
+  // Get form inputs data
   const onSubmit = (values: object) => {
     console.log(JSON.stringify(values));
   };
@@ -48,6 +50,7 @@ function FormGenerator({ jsonFile }: FormGeneratorProps) {
   return (
     <Form onSubmit={handleSubmit(onSubmit)}>
       <Grid templateColumns="repeat(2, 1fr)" gap={4}>
+        {/*==================== Build Inputs ====================*/}
         {inputs?.map((input: FormGeneratorInput) => (
           <GridItem key={input.id} colSpan={inputWidth[input?.width]}>
             <FormControl isInvalid={!!(errors?.[input?.name])}>
@@ -70,6 +73,7 @@ function FormGenerator({ jsonFile }: FormGeneratorProps) {
             </FormControl>
           </GridItem>
         ))}
+        {/*==================== Build Radio Buttons ====================*/}
         {RadioGroups?.map((radioGroup) => (
           <GridItem key={radioGroup?.id} colSpan={2}>
             <FormControl isInvalid={isSubmitted && !isSubmitSuccessful}>
@@ -92,6 +96,7 @@ function FormGenerator({ jsonFile }: FormGeneratorProps) {
           </GridItem>
         ))}
       </Grid>
+      {/*==================== Submit Button ====================*/}
       <Button type="submit" mt="2rem" isLoading={isSubmitting}>
         Submit
       </Button>
